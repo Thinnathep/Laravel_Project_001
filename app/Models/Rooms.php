@@ -8,6 +8,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 class Rooms extends Model
 {
     use HasFactory;
@@ -26,4 +27,6 @@ class Rooms extends Model
     {
         Schema::dropIfExists('rooms');
     }
+
+    protected $fillable = ['name', 'type', 'created_at', 'updated_at'];
 }

@@ -46,10 +46,29 @@
     <!-- Content -->
     <div class="content">
         @yield('content')
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Welcome to Laravel</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod leo nec neque tristique,
+                        non malesuada purus molestie. Sed eu quam in metus congue varius. Proin auctor est ac turpis
+                        lacinia, et ultricies arcu vehicula.</p>
+                </div>
+                <div class="col-md-6">
+                    <h2>Why Choose Laravel?</h2>
+                    <ul>
+                        <li>Fast Development</li>
+                        <li>Rich Features</li>
+                        <li>Secure</li>
+                        <li>Community Support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
-    <footer class="mt-4 py-3 bg-light">
+    <footer class="py-3 bg-light fixed-bottom">
         <div class="container">
             <p class="mb-0 text-center">© {{ date('Y') }} Laravel</p>
         </div>

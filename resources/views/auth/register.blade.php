@@ -13,7 +13,7 @@
     <!-- Navigation -->
     <nav class="mb-4 navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Your Website</a>
+            <a class="navbar-brand" href="#">Laravel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -21,18 +21,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="{{ route('login') }}">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="{{ route('register') }}">Register</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -41,7 +42,8 @@
                         Register
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/login">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name:</label>
                                 <input type="text" class="form-control" id="name" name="name" required>

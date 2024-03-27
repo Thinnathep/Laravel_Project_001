@@ -12,4 +12,5 @@ class RoomsController extends Controller
         $rooms = Rooms::all(); // ดึงข้อมูล rooms ทั้งหมด
         return view('data', compact('rooms')); // ส่งข้อมูล rooms ไปยัง view
     }
+
 }

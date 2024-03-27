@@ -2,15 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User; // ตรวจสอบว่ามีการ use model User ที่เหมาะสม
+use App\Models\Rooms;
+use App\Models\RoomType;
 
 class ProfileController extends Controller
 {
+    public function index()
+    {
+        return view('profile');
+
+    }
+
+    // public function index1()
+    // {
+    //     // ตัวดึงข้อมูล
+    //     $users = User::all();
+    //     $rooms = Rooms::all();
+    //     $room_types = RoomType::all(); // ดึงข้อมูล room_types
+    //     return view('data', compact('users', 'rooms', 'room_types'));
+    // }
+
+
+
     /**
      * Display the user's profile form.
      */
