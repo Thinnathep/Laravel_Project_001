@@ -15,7 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\registerController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\GeneralController;
 
 //dashboard
 Route::get('/dashboard', function () {
@@ -43,9 +43,10 @@ Route::get('/data', [UserController::class, 'index']);
 // Route::get('/data', [RoomsController::class, 'index']);
 
 
-//profile && Setting
+//profile && Setting && General
 Route::get('/profile', [ProfileController::class, 'index']);
 Route::get('/Setting', [SettingController::class, 'index']);
+Route::get('/general', [GeneralController::class, 'index']);
 
 
 Route::middleware('auth:api')->get('/user', [UserController::class, 'getUser']);
@@ -64,6 +65,20 @@ Route::post('/update-room/{id}', [UserController::class, 'updateRoom'])->name('u
 Route::delete('/delete-room/{id}', [UserController::class, 'deleteRoom'])->name('deleteRoom');
 Route::put('/update-room/{id}', [UserController::class, 'updateRoom'])->name('updateRoom');
 
+Route::post('/insert-roomstatus', [UserController::class, 'insertRoomstatus'])->name('insertRoomstatus');
+Route::get('/edit-roomstatus/{id}', [UserController::class, 'editRoomstatus'])->name('editRoomstatus');
+Route::post('/update-roomstatus/{id}', [UserController::class, 'updateRoomstatus'])->name('updateRoomstatus');
+Route::delete('/delete-roomstatus/{id}', [UserController::class, 'deleteRoomstatus'])->name('deleteRoomstatus');
+Route::put('/update-roomstatus/{id}', [UserController::class, 'updateRoomstatus'])->name('updateRoomstatus');
+
+
 //Setting
 Route::post('/changePassword', [SettingController::class, 'changePassword'])->name('changePassword');
 
+//status room
+use App\Http\Controllers\RoomStatusController;
+
+Route::get('/room_status', [RoomStatusController::class, 'index']);
+Route::get('/dashboard', [RoomStatusController::class, 'index']);
+Route::get('/dashboard', [RoomStatusController::class, 'index'])->name('data');
+Route::get('/dashboard', [RoomStatusController::class, 'index'])->name('dashboard');

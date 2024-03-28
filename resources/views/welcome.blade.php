@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -19,7 +22,7 @@
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
 
 
-    <!-- Navigation -->
+    {{-- <!-- Navigation -->
     <nav class="mb-4 navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Laravel</a>
@@ -41,7 +44,7 @@
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav> --}}
 
     <!-- Content -->
     <div class="content">
@@ -81,3 +84,4 @@
 </body>
 
 </html>
+@endsection

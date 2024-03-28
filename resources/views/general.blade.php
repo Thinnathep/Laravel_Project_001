@@ -40,6 +40,8 @@
             /* เพิ่มเพื่อให้ #sidebar อยู่ที่มุมบนซ้าย */
         }
 
+
+
         #sidebar ul {
             list-style-type: none;
             padding: 0;
@@ -102,6 +104,45 @@
         /* Style for the settings toggle */
         .profile-toggle {
             cursor: pointer;
+        }
+
+        .bg-green {
+            background-color: green;
+        }
+
+        .bg-red {
+            background-color: red;
+        }
+
+        /* .room-status-button {
+                                                        background-color: green;
+                                                        color: white;
+                                                        border: none;
+                                                        padding: 10px 20px;
+                                                        text-align: center;
+                                                        text-decoration: none;
+                                                        display: inline-block;
+                                                        font-size: 16px;
+                                                        margin: 4px 2px;
+                                                        cursor: pointer;
+                                                    }
+
+                                                    .room-status-button:active {
+                                                        background-color: red;
+                                                    } */
+
+        .room {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid black;
+        }
+
+        .room {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            border: 1px solid black;
         }
     </style>
 
@@ -190,36 +231,30 @@
                     }
                 });
             });
+            // document.getElementById('roomStatusButton').addEventListener('click', function() {
+            //     var button = this;
+            //     if (button.textContent === 'ห้องว่าง') {
+            //         button.textContent = 'ห้องไม่ว่าง';
+            //         button.style.backgroundColor = 'red';
+            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
+            //     } else {
+            //         button.textContent = 'ห้องว่าง';
+            //         button.style.backgroundColor = 'green';
+            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
+            //     }
+            // });
         </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
         <script src="script.js"></script> <!-- Link to your JavaScript file -->
 
-
         <div class="container mt-5">
-            <h1>Data Page Setting</h1>
-            <h4>Change Password</h4>
-            <form action="{{ route('changePassword') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Change Password</button>
-            </form>
+            <h1>Hello </h1>
         </div>
-
-
-
     </body>
 
     </html>

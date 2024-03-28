@@ -7,17 +7,21 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User; // ตรวจสอบว่ามีการ use model User ที่เหมาะสม
 use App\Models\Rooms;
 use App\Models\RoomType;
+use App\Models\RoomStatus;
 
 
 class UserController extends Controller
 {
     public function index()
     {
-        // ตัวดึงข้อมูล
+        // ดึงข้อมูลจากฐานข้อมูล
         $users = User::all();
         $rooms = Rooms::all();
         $room_types = RoomType::all(); // ดึงข้อมูล room_types
-        return view('data', compact('users', 'rooms', 'room_types'));
+        $room_status = RoomStatus::all(); // ดึงข้อมูล room_status
+
+        // ส่งข้อมูลไปยัง view
+        return view('data', compact('users', 'rooms', 'room_types', 'room_status'));
     }
 
 
@@ -138,4 +142,43 @@ class UserController extends Controller
     }
 
 
+    //Insert Update Delete Room_status
+    public function insertRoomStatus(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'is_available' => 'required|boolean',
+        ]);
+
+        $roomStatus = new RoomStatus;
+        $roomStatus->name = $request->name;
+        $roomStatus->is_available = $request->is_available;
+        $roomStatus->save();
+
+        return redirect('/data')->with('success', 'Room Status inserted successfully');
+    }
+
+    public function editRoomStatus($id)
+    {
+        $roomStatus = RoomStatus::find($id);
+        return view('edit-roomstatus', compact('roomStatus'));
+    }
+
+    public function updateRoomStatus(Request $request, $id)
+    {
+        $roomStatus = RoomStatus::find($id);
+        $roomStatus->name = $request->name;
+        $roomStatus->is_available = $request->is_available;
+        $roomStatus->save();
+
+        return redirect('/data')->with('success', 'Room Status updated successfully');
+    }
+
+    public function deleteRoomStatus($id)
+    {
+        $roomStatus = RoomStatus::find($id);
+        $roomStatus->delete();
+
+        return redirect('/data')->with('success', 'Room Status deleted successfully');
+    }
 }

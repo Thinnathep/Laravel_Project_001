@@ -1,0 +1,82 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+#sidebar {
+    width: 200px;
+    height: 100vh;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    position: fixed;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: -22px
+}
+
+#sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+
+#sidebar ul li a:hover {
+    background-color: #555;
+}
+
+#content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+#logoutBtn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#logoutBtn:hover {
+    background-color: #d32f2f;
+}
+
+/* Hide the sub-menu by default */
+.settings-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    /* Adjust the duration and easing function as needed */
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+/* Style for the settings toggle */
+.settings-toggle {
+    cursor: pointer;
+}
+
+/* Hide the sub-menu by default */
+.profile-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    /* Adjust the duration and easing function as needed */
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+/* Style for the settings toggle */
+.profile-toggle {
+    cursor: pointer;
+}
