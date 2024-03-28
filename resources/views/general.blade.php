@@ -2,13 +2,13 @@
 
 @section('content')
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
-        <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+        {{-- <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file --> --}}
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -113,23 +113,6 @@
         .bg-red {
             background-color: red;
         }
-
-        /* .room-status-button {
-                                                        background-color: green;
-                                                        color: white;
-                                                        border: none;
-                                                        padding: 10px 20px;
-                                                        text-align: center;
-                                                        text-decoration: none;
-                                                        display: inline-block;
-                                                        font-size: 16px;
-                                                        margin: 4px 2px;
-                                                        cursor: pointer;
-                                                    }
-
-                                                    .room-status-button:active {
-                                                        background-color: red;
-                                                    } */
 
         .room {
             width: 100px;
@@ -250,11 +233,51 @@
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script src="script.js"></script> <!-- Link to your JavaScript file -->
+
 
         <div class="container mt-5">
-            <h1>Hello </h1>
-        </div>
+            <div class="container">
+                <h1 class="text-center my-4">Welcome to the General Page</h1>
+                <h2 class="text-center my-4">About Us</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
+                    ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
+                    mauris.</p>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Announcement Title</h5>
+                            <small>3 days ago</small>
+                        </div>
+                        <p class="mb-1">Some announcement details...</p>
+                    </a>
+                    <!-- Repeat for other announcements -->
+                </div>
+            </div>
+            <div class="container">
+                <h2 class="text-center my-4">Contact Us</h2>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+
+
+            <div>
+                <!-- Bootstrap JS -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </div>
     </body>
 
     </html>

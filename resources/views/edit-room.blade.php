@@ -23,11 +23,23 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{ $room->name }}"
                         required>
                 </div>
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label for="type" class="form-label">Type</label>
                     <input type="text" class="form-control" id="type" name="type" value="{{ $room->type }}"
                         required>
+                </div> --}}
+
+                <div class="mb-3">
+                    <label for="type" class="form-label">Type</label>
+                    <select name="type" id="type" class="form-control">
+                        <option value="1" {{ $room->type == 1 ? 'selected' : '' }}>1</option>
+                        <option value="2" {{ $room->type == 2 ? 'selected' : '' }}>2</option>
+                        <option value="3" {{ $room->type == 3 ? 'selected' : '' }}>3</option>
+                    </select>
                 </div>
+
+
+
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>

@@ -9,7 +9,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
-        <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+        {{-- <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file --> --}}
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -195,7 +195,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="script.js"></script> <!-- Link to your JavaScript file -->
+        {{-- <script src="script.js"></script> <!-- Link to your JavaScript file --> --}}
 
 
         <div class="container mt-0">

@@ -8,7 +8,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
-        <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+        {{-- <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file --> --}}
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -115,21 +115,21 @@
         }
 
         /* .room-status-button {
-                                                                background-color: green;
-                                                                color: white;
-                                                                border: none;
-                                                                padding: 10px 20px;
-                                                                text-align: center;
-                                                                text-decoration: none;
-                                                                display: inline-block;
-                                                                font-size: 16px;
-                                                                margin: 4px 2px;
-                                                                cursor: pointer;
-                                                            }
+                                                                            background-color: green;
+                                                                            color: white;
+                                                                            border: none;
+                                                                            padding: 10px 20px;
+                                                                            text-align: center;
+                                                                            text-decoration: none;
+                                                                            display: inline-block;
+                                                                            font-size: 16px;
+                                                                            margin: 4px 2px;
+                                                                            cursor: pointer;
+                                                                        }
 
-                                                            .room-status-button:active {
-                                                                background-color: red;
-                                                            } */
+                                                                        .room-status-button:active {
+                                                                            background-color: red;
+                                                                        } */
 
         .room {
             width: 100px;
@@ -265,7 +265,7 @@
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <script src="script.js"></script> <!-- Link to your JavaScript file -->
+        {{-- <script src="script.js"></script> <!-- Link to your JavaScript file --> --}}
 
         <div class="container mt-5">
             <div class="row">
@@ -310,7 +310,6 @@
                             </tbody>
                         </table>
                     </div>
-                    
                     {{-- <button id="roomStatusButton" class="room-status-button">ห้องว่าง</button> --}}
                     {{-- ปุ่ม --}}
                     <div>

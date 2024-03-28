@@ -245,7 +245,12 @@
                                 <td>{{ $user->created_at }}</td>
                                 <td>{{ $user->updated_at }}</td>
                                 <td>
-                                    <a href="/edit-user/{{ $user->id }}" class="btn btn-primary btn-sm">Edit</a>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editUserModal" data-userid="{{ $user->id }}"
+                                        data-username="{{ $user->username }}" data-name="{{ $user->name }}"
+                                        data-email="{{ $user->email }}">
+                                        Edit
+                                    </button>
                                     <form action="/delete-user/{{ $user->id }}" method="post"
                                         style="display: inline;">
                                         @csrf
@@ -306,8 +311,14 @@
                                 <td>{{ $room_status->created_at }}</td>
                                 <td>{{ $room_status->updated_at }}</td>
                                 <td>
-                                    <a href="{{ route('editRoomstatus', $room_status->id) }}"
-                                        class="btn btn-primary btn-sm">Edit</a>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editRoomstatusModal" data-room-id="{{ $room_status->id }}"
+                                        data-room-name="{{ $room_status->name }}"
+                                        data-room-is-available="{{ $room_status->is_available }}">
+                                        Edit
+                                    </button>
+
+
                                     <form action="{{ route('deleteRoomstatus', $room_status->id) }}" method="post"
                                         style="display: inline;">
                                         @csrf
@@ -321,9 +332,6 @@
                     </tbody>
                 </table>
             </div>
-
-
-
 
             <h2>Rooms</h2>
             <form action="{{ route('insertRoom') }}" method="post">
@@ -339,9 +347,11 @@
                     </thead>
                     <tr>
                         <td></td>
-                        <td><input type="text" name="name" class="form-control form-control-sm" placeholder="Name">
+                        <td><input type="text" name="name" class="form-control form-control-sm"
+                                placeholder="Name">
                         </td>
-                        <td><input type="text" name="type" class="form-control form-control-sm" placeholder="Type">
+                        <td><input type="text" name="type" class="form-control form-control-sm"
+                                placeholder="Type">
                         </td>
                         <td>
                             <button type="submit" class="btn btn-success btn-sm">Insert</button>
@@ -435,6 +445,123 @@
                     if (confirm('Are you sure you want to delete this user?')) {
                         form.submit();
                     }
+                });
+            });
+        </script>
+
+
+        <!-- แบบ Model -->
+        <!-- Modal User -->
+        <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/update-user/{{ $user->id }}" method="post">
+                            @csrf
+                            {{-- <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username"
+                                    value="{{ $user->username }}">
+                            </div> --}}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ $user->name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ $user->email }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Room Status -->
+        <div class="modal fade" id="editRoomstatusModal" tabindex="-1" aria-labelledby="editRoomstatusModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editRoomstatusModalLabel">Edit Room Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/update-roomstatus/{{ $room_status->id }}" method="post">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ $room_status->name }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="is_available" class="form-label">Is Available</label>
+                                <select class="form-control" id="is_available" name="is_available">
+                                    <option value="1" {{ $room_status->is_available == 1 ? 'selected' : '' }}>ว่าง
+                                    </option>
+                                    <option value="0" {{ $room_status->is_available == 0 ? 'selected' : '' }}>ไม่ว่าง
+                                    </option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Modal Room -->
+
+
+
+        <!-- ส่วนของการดึงข้อมูล -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#editUserModal').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var userId = button.data('userid'); // Extract info from data-* attributes
+                    var username = button.data('username');
+                    var name = button.data('name');
+                    var email = button.data('email');
+                    // If necessary, you can make an AJAX call here to get the user's data
+                    // For demonstration, we'll just use the data already available
+                    var modal = $(this);
+                    modal.find('#username').val(username);
+                    modal.find('#name').val(name);
+                    modal.find('#email').val(email);
+                    // Repeat for other fields as necessary
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('#editRoomstatusModal').on('show.bs.modal', function(event) {
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var roomId = button.data('room-id'); // Extract info from data-* attributes
+                    var roomName = button.data('room-name');
+                    var roomIsAvailable = button.data('room-is-available');
+                    // If necessary, you can make an AJAX call here to get the room's data
+                    // For demonstration, we'll just use the data already available
+                    var modal = $(this);
+                    modal.find('#name').val(roomName);
+                    modal.find('#is_available').val(roomIsAvailable);
+                    // Repeat for other fields as necessary
                 });
             });
         </script>
