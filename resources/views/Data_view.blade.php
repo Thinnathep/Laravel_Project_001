@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard</title>
+        <title>Data View</title>
         {{-- <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file --> --}}
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -270,51 +270,173 @@
         </script>
 
 
-
-
         <div class="container mt-5">
             <div class="container">
-                <h1 class="text-center my-4">Welcome to the General Page</h1>
-                <h2 class="text-center my-4">About Us</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
-                    ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-                    mauris.</p>
-                <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Announcement Title</h5>
-                            <small>3 days ago</small>
-                        </div>
-                        <p class="mb-1">Some announcement details...</p>
-                    </a>
-                    <!-- Repeat for other announcements -->
+                <h1>Accounts</h1>
+                <div class="container mt-5">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Room ID</th>
+                                <th>Room Status ID</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <form action="/insert-Account" method="post">
+                                    @csrf
+                                    <td></td> <!-- ID จะถูกสร้างโดยฐานข้อมูล -->
+                                    <td><input type="text" class="form-control form-control-sm" name="name"
+                                            placeholder="Name"></td>
+                                    <td><input type="email" class="form-control form-control-sm" name="email"
+                                            placeholder="Email"></td>
+                                    <td><input type="password" class="form-control form-control-sm" name="password"
+                                            placeholder="Password"></td>
+                                    <td><input type="number" class="form-control form-control-sm" name="room_id"
+                                            placeholder="Room ID"></td>
+                                    <td><input type="number" class="form-control form-control-sm" name="room_status_id"
+                                            placeholder="Room Status ID"></td>
+                                    <td>
+                                        <select class="form-select form-select-sm" name="is_available">
+                                            <option value="1">ว่าง</option>
+                                            <option value="0">ไม่ว่าง</option>
+                                        </select>
+                                    </td>
+                                    <td><button class="btn btn-success btn-sm" type="submit">Insert</button></td>
+                                </form>
+                            </tr>
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Room ID</th>
+                                        <th>Room Status ID</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($accounts as $account)
+                                        <tr>
+                                            <td>{{ $account->id }}</td>
+                                            <td>{{ $account->name }}</td>
+                                            <td>{{ $account->email }}</td>
+                                            <td>{{ $account->room_id }}</td>
+                                            <td>{{ $account->room_status_id }}</td>
+                                            <td class="{{ $account->is_available ? 'text-success' : 'text-danger' }}">
+                                                {{ $account->is_available ? 'ว่าง' : 'ไม่ว่าง' }}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary edit-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#editAccountModal"
+                                                    data-id="{{ $account->id }}">
+                                                    Edit
+                                                </button>
+
+                                                <form action="/delete-Account/{{ $account->id }}" method="POST"
+                                                    class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger delete-btn">Delete</button>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="container">
-                <h2 class="text-center my-4">Contact Us</h2>
-                <form>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name">
+        </div>
+        <div>
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+
+        <div class="modal fade" id="editAccountModal" tabindex="-1" aria-labelledby="editAccountModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAccountModalLabel">Edit Account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email">
+                    <div class="modal-body">
+                        <form action="/data_view/update/{{ $account->id }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="is_available" class="form-label">Status</label>
+                                <select class="form-select" id="is_available" name="is_available" required>
+                                    <option value="1">ว่าง</option>
+                                    <option value="0">ไม่ว่าง</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="room_id" class="form-label">Room ID</label>
+                                <input type="number" class="form-control" id="room_id" name="room_id">
+                            </div>
+                            <div class="mb-3">
+                                <label for="room_status_id" class="form-label">Room Status ID</label>
+                                <input type="number" class="form-control" id="room_status_id" name="room_status_id">
+                            </div>
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                </div>
             </div>
+        </div>
 
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const editButtons = document.querySelectorAll('.edit-btn');
+                editButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const accountId = this.getAttribute('data-id');
+                        // ดึงข้อมูลของ Account จาก Server และแสดงใน Modal
+                        // ตัวอย่าง: fetch(`/data_view/account/${accountId}`)
+                        // และอัปเดตฟิลด์ใน Modal ด้วยข้อมูลที่ได้
+                    });
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                const deleteButtons = document.querySelectorAll('.delete-btn');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault(); // ป้องกันการส่งคำขอโดยอัตโนมัติ
+                        const confirmDelete = confirm('Are you sure you want to delete this account?');
+                        if (confirmDelete) {
+                            this.closest('form').submit(); // ส่งคำขอลบถ้าผู้ใช้ยืนยัน
+                        }
+                    });
+                });
+            });
+        </script>
 
-            <div>
-                <!-- Bootstrap JS -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-            </div>
     </body>
 
     </html>

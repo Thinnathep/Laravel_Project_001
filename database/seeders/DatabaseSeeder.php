@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\RoomType;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -19,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RoomTypesSeeder::class,
             RoomsSeeder::class,
             RoomStatusTableSeeder::class,
+            AccountSeeder::class,
 
         ]);
     }

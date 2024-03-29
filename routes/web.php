@@ -7,7 +7,7 @@ Route::get('/', function () {
 });
 
 
-Auth::routes();
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomsController;
 use App\Http\Controllers\AuthController;
@@ -16,11 +16,16 @@ use App\Http\Controllers\registerController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\AccountController;
 
+Auth::routes();
 //dashboard
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->name('dashboard');
+
 
 
 // กำหนด route ที่ต้องการเองสำหรับการเข้าสู่ระบบ
@@ -34,6 +39,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 // กำหนด route ที่ต้องการเองสำหรับการลงทะเบียน
 Route::get('/register', [registerController::class, 'index'])->name('register');
 Route::post('/register', [registerController::class, 'register']);
+
 
 // routes/web.php
 Route::get('/data', function () {
@@ -67,10 +73,16 @@ Route::put('/update-room/{id}', [UserController::class, 'updateRoom'])->name('up
 
 Route::post('/insert-roomstatus', [UserController::class, 'insertRoomstatus'])->name('insertRoomstatus');
 Route::get('/edit-roomstatus/{id}', [UserController::class, 'editRoomstatus'])->name('editRoomstatus');
+Route::put('/update-roomstatus/{id}', [UserController::class, 'updateRoomstatus'])->name('updateRoomstatus');
 Route::post('/update-roomstatus/{id}', [UserController::class, 'updateRoomstatus'])->name('updateRoomstatus');
 Route::delete('/delete-roomstatus/{id}', [UserController::class, 'deleteRoomstatus'])->name('deleteRoomstatus');
-Route::put('/update-roomstatus/{id}', [UserController::class, 'updateRoomstatus'])->name('updateRoomstatus');
 
+
+Route::post('/insert-Account', [UserController::class, 'insertAccount'])->name('insertAccount');
+Route::get('/edit-Account/{id}', [UserController::class, 'editAccount'])->name('editAccount');
+Route::put('/update-Account/{id}', [UserController::class, 'updateAccount'])->name('updateAccount');
+Route::post('/update-Account/{id}', [UserController::class, 'updateAccount'])->name('updateAccount');
+Route::delete('/delete-Account/{id}', [UserController::class, 'deleteAccount'])->name('deleteAccount');
 
 //Setting
 Route::post('/changePassword', [SettingController::class, 'changePassword'])->name('changePassword');
@@ -82,3 +94,7 @@ Route::get('/room_status', [RoomStatusController::class, 'index']);
 Route::get('/dashboard', [RoomStatusController::class, 'index']);
 Route::get('/dashboard', [RoomStatusController::class, 'index'])->name('data');
 Route::get('/dashboard', [RoomStatusController::class, 'index'])->name('dashboard');
+
+
+//Data_view
+Route::get('/data_view', [AccountController::class, 'index']);

@@ -8,8 +8,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard</title>
-        {{-- <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file --> --}}
-        <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,8 +37,6 @@
             left: 0;
             /* เพิ่มเพื่อให้ #sidebar อยู่ที่มุมบนซ้าย */
         }
-
-
 
         #sidebar ul {
             list-style-type: none;
@@ -106,6 +102,22 @@
             cursor: pointer;
         }
 
+        /* Hide the sub-menu by default */
+        .data-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            /* Adjust the duration and easing function as needed */
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        /* Style for the settings toggle */
+        .data-toggle {
+            cursor: pointer;
+        }
+
+
         .bg-green {
             background-color: green;
         }
@@ -113,23 +125,6 @@
         .bg-red {
             background-color: red;
         }
-
-        /* .room-status-button {
-                                                                            background-color: green;
-                                                                            color: white;
-                                                                            border: none;
-                                                                            padding: 10px 20px;
-                                                                            text-align: center;
-                                                                            text-decoration: none;
-                                                                            display: inline-block;
-                                                                            font-size: 16px;
-                                                                            margin: 4px 2px;
-                                                                            cursor: pointer;
-                                                                        }
-
-                                                                        .room-status-button:active {
-                                                                            background-color: red;
-                                                                        } */
 
         .room {
             width: 100px;
@@ -166,7 +161,7 @@
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        <li><a href="/profile/Page 3">- Page 3</a></li>
+                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -175,13 +170,22 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        <li><a href="/Setting/General">- General</a></li>
+                        {{-- <li><a href="/Setting/General">- General</a></li>
                         <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li>
+                        <li><a href="/Setting/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
-                <li><a href="/data">Data</a></li>
+                <li>
+                    <a href="#" class="data-toggle">Data</a>
+                    <ul class="data-submenu">
+                        <li><a href="/data">- Data</a></li>
+                        <li><a href="/data_view">- View</a></li>
+                        {{-- <li><a href="/data/Account">- Account</a></li>
+                        <li><a href="/data/Security">- Security</a></li> --}}
+                    </ul>
+                </li>
+
                 <button id="logoutBtn">Logout</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -231,41 +235,25 @@
                     }
                 });
             });
-            // document.getElementById('roomStatusButton').addEventListener('click', function() {
-            //     var button = this;
-            //     if (button.textContent === 'ห้องว่าง') {
-            //         button.textContent = 'ห้องไม่ว่าง';
-            //         button.style.backgroundColor = 'red';
-            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
-            //     } else {
-            //         button.textContent = 'ห้องว่าง';
-            //         button.style.backgroundColor = 'green';
-            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
-            //     }
-            // });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var settingsToggle = document.querySelector('.data-toggle');
+                var settingsSubmenu = document.querySelector('.data-submenu');
+
+                settingsToggle.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default action
+                    if (settingsSubmenu.style.maxHeight) {
+                        // If the sub-menu is currently shown, hide it
+                        settingsSubmenu.style.maxHeight = null;
+                    } else {
+                        // If the sub-menu is hidden, show it with a smooth animation
+                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
+                    }
+                });
+            });
         </script>
 
-
-        {{-- <script><document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/user') // สมมติว่าคุณมี endpoint ที่ชื่อ /api/user สำหรับดึงข้อมูลของผู้ใช้
-        .then(response => response.json())
-        .then(data => {
-            const userProfile = document.getElementById('user-profile');
-            userProfile.innerHTML = `
-                <p>Name: ${data.name}</p>
-                <p>Email: ${data.email}</p>
-                <!-- แสดงภาพโปรไฟล์หรือข้อมูลอื่น ๆ ที่คุณต้องการ -->
-            `;
-        })
-        .catch(error => console.error('Error:', error));
-});
-/script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-
-        <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-        {{-- <script src="script.js"></script> <!-- Link to your JavaScript file --> --}}
 
         <div class="container mt-5">
             <div class="row">
@@ -284,33 +272,33 @@
                             <h1>{{ Auth::user()->name }} </h1>! Here's a quick overview of your dashboard
                             </p>
 
+                        </div>
+                    </div>
 
+                    {{-- รายการห้อง --}}
+                    <div class="container">
+                        <h2>รายการห้อง</h2>
+                        <div class="container mt-5">
+                            <div class="row">
+                                @foreach ($room_status as $room)
+                                    <div class="col-md-4 mb-4">
+                                        <div
+                                            class="card {{ $room->is_available ? 'bg-success text-white' : 'bg-danger text-white' }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $room->name }}</h5>
+                                                <p class="card-text">
+                                                    {{ $room->is_available ? 'ว่าง' : 'ไม่ว่าง' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 
 
-                    <div class="container">
-                        <h2>รายการห้อง</h2>
-                        <table class="table custom-table">
-                            <thead>
-                                <tr>
-                                    <th>ชื่อห้อง</th>
-                                    <th>สถานะ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($room_status as $room)
-                                    <tr>
-                                        <td>{{ $room->name }}</td>
-                                        <td class="{{ $room->is_available ? 'text-success' : 'text-danger' }}">
-                                            {{ $room->is_available ? 'ว่าง' : 'ไม่ว่าง' }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    {{-- <button id="roomStatusButton" class="room-status-button">ห้องว่าง</button> --}}
+
                     {{-- ปุ่ม --}}
                     <div>
                         <button id="insertBtn" class="btn btn-primary">Insert</button>

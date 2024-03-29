@@ -104,6 +104,21 @@
         .profile-toggle {
             cursor: pointer;
         }
+
+        /* Hide the sub-menu by default */
+        .data-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            /* Adjust the duration and easing function as needed */
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        /* Style for the settings toggle */
+        .data-toggle {
+            cursor: pointer;
+        }
     </style>
 
     <body>
@@ -126,7 +141,7 @@
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        <li><a href="/profile/Page 3">- Page 3</a></li>
+                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -135,13 +150,21 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        <li><a href="/Setting/General">- General</a></li>
+                        {{-- <li><a href="/Setting/General">- General</a></li>
                         <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li>
+                        <li><a href="/Setting/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
-                <li><a href="/data">Data</a></li>
+                <li>
+                    <a href="#" class="data-toggle">Data</a>
+                    <ul class="data-submenu">
+                        <li><a href="/data">- Data</a></li>
+                        <li><a href="/data_view">- View</a></li>
+                        {{-- <li><a href="/data/Account">- Account</a></li>
+                        <li><a href="/data/Security">- Security</a></li> --}}
+                    </ul>
+                </li>
                 <button id="logoutBtn">Logout</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -191,12 +214,28 @@
                     }
                 });
             });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var settingsToggle = document.querySelector('.data-toggle');
+                var settingsSubmenu = document.querySelector('.data-submenu');
+
+                settingsToggle.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default action
+                    if (settingsSubmenu.style.maxHeight) {
+                        // If the sub-menu is currently shown, hide it
+                        settingsSubmenu.style.maxHeight = null;
+                    } else {
+                        // If the sub-menu is hidden, show it with a smooth animation
+                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
+                    }
+                });
+            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         {{-- <script src="script.js"></script> <!-- Link to your JavaScript file --> --}}
-
 
         <div class="container mt-0">
 

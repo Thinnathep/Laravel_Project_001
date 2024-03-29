@@ -8,6 +8,8 @@ use App\Models\User; // ตรวจสอบว่ามีการ use model 
 use App\Models\Rooms;
 use App\Models\RoomType;
 use App\Models\RoomStatus;
+use App\Models\Account;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -23,6 +25,9 @@ class UserController extends Controller
         // ส่งข้อมูลไปยัง view
         return view('data', compact('users', 'rooms', 'room_types', 'room_status'));
     }
+
+
+
 
 
     public function getUser(Request $request)
@@ -181,4 +186,59 @@ class UserController extends Controller
 
         return redirect('/data')->with('success', 'Room Status deleted successfully');
     }
+
+
+    // insert update delete - Account
+    public function insertAccount(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:accounts',
+            'password' => 'required|min:8',
+            'is_available' => 'required|boolean',
+            'room_id' => 'nullable|integer',
+            'room_status_id' => 'nullable|integer',
+        ]);
+
+        $account = new Account;
+        $account->name = $request->name;
+        $account->email = $request->email;
+        $account->password = Hash::make($request->password);
+        $account->is_available = $request->is_available;
+        $account->room_id = $request->room_id;
+        $account->room_status_id = $request->room_status_id;
+        $account->save();
+
+        return redirect('/data_view')->with('success', 'Account inserted successfully');
+    }
+
+    public function editAccount($id)
+    {
+        $account = Account::find($id);
+        return view('edit-account', compact('account'));
+    }
+
+    public function updateAccount(Request $request, $id)
+    {
+        $account = Account::find($id);
+        $account->name = $request->name;
+        $account->email = $request->email;
+        $account->password = Hash::make($request->password);
+        $account->is_available = $request->is_available;
+        $account->room_id = $request->room_id;
+        $account->room_status_id = $request->room_status_id;
+        $account->save();
+
+        return redirect('/data_view')->with('success', 'Account updated successfully');
+    }
+
+    public function deleteAccount($id)
+    {
+        $account = Account::find($id);
+        $account->delete();
+
+        return redirect('/data_view')->with('success', 'Account deleted successfully');
+    }
+
+
 }

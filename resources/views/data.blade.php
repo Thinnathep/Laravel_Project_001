@@ -22,7 +22,6 @@
             margin: 0;
             padding: 0;
             font-family: "Noto Sans Thai", sans-serif;
-
         }
 
         #sidebar {
@@ -125,7 +124,7 @@
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        <li><a href="/profile/Page 3">- Page 3</a></li>
+                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -134,13 +133,24 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        <li><a href="/Setting/General">- General</a></li>
+                        {{-- <li><a href="/Setting/General">- General</a></li>
                         <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li>
+                        <li><a href="/Setting/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
-                <li><a href="/data">Data</a></li>
+
+                <li>
+                    <a href="#" class="data-toggle">Data</a>
+                    <ul class="data-submenu">
+                        <li><a href="/data">- Data</a></li>
+                        <li><a href="/data_view">- View</a></li>
+                        {{-- <li><a href="/data/Account">- Account</a></li>
+                        <li><a href="/data/Security">- Security</a></li> --}}
+                    </ul>
+                </li>
+
+                {{-- <li><a href="/data">Data</a></li> --}}
                 <button id="logoutBtn">Logout</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -190,10 +200,25 @@
                     }
                 });
             });
+            document.addEventListener('DOMContentLoaded', function() {
+                var settingsToggle = document.querySelector('.data-toggle');
+                var settingsSubmenu = document.querySelector('.data-submenu');
+
+                settingsToggle.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default action
+                    if (settingsSubmenu.style.maxHeight) {
+                        // If the sub-menu is currently shown, hide it
+                        settingsSubmenu.style.maxHeight = null;
+                    } else {
+                        // If the sub-menu is hidden, show it with a smooth animation
+                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
+                    }
+                });
+            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
         <script src="script.js"></script> <!-- Link to your JavaScript file -->
 
@@ -303,23 +328,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($room_status as $room_status)
+                        @foreach ($room_status as $status)
                             <tr>
-                                <td>{{ $room_status->id }}</td>
-                                <td>{{ $room_status->name }}</td>
-                                <td>{{ $room_status->is_available ? 'ว่าง' : 'ไม่ว่าง' }}</td>
-                                <td>{{ $room_status->created_at }}</td>
-                                <td>{{ $room_status->updated_at }}</td>
+                                <td>{{ $status->id }}</td>
+                                <td>{{ $status->name }}</td>
+                                <td>{{ $status->is_available ? 'ว่าง' : 'ไม่ว่าง' }}</td>
+                                <td>{{ $status->created_at }}</td>
+                                <td>{{ $status->updated_at }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#editRoomstatusModal" data-room-id="{{ $room_status->id }}"
-                                        data-room-name="{{ $room_status->name }}"
-                                        data-room-is-available="{{ $room_status->is_available }}">
-                                        Edit
-                                    </button>
+                                    <a href="{{ route('editRoomstatus', $status->id) }}"
+                                        class="btn btn-primary btn-sm">Edit</a>
 
 
-                                    <form action="{{ route('deleteRoomstatus', $room_status->id) }}" method="post"
+                                    <form action="{{ route('deleteRoomstatus', $status->id) }}" method="post"
                                         style="display: inline;">
                                         @csrf
                                         @method('DELETE')
@@ -330,6 +351,7 @@
                             </tr>
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
 
@@ -347,8 +369,7 @@
                     </thead>
                     <tr>
                         <td></td>
-                        <td><input type="text" name="name" class="form-control form-control-sm"
-                                placeholder="Name">
+                        <td><input type="text" name="name" class="form-control form-control-sm" placeholder="Name">
                         </td>
                         <td><input type="text" name="type" class="form-control form-control-sm"
                                 placeholder="Type">
@@ -490,45 +511,17 @@
         </div>
 
         <!-- Modal Room Status -->
-        <div class="modal fade" id="editRoomstatusModal" tabindex="-1" aria-labelledby="editRoomstatusModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editRoomstatusModalLabel">Edit Room Status</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="/update-roomstatus/{{ $room_status->id }}" method="post">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $room_status->name }}">
-                            </div>
-                            <div class="mb-3">
-                                <label for="is_available" class="form-label">Is Available</label>
-                                <select class="form-control" id="is_available" name="is_available">
-                                    <option value="1" {{ $room_status->is_available == 1 ? 'selected' : '' }}>ว่าง
-                                    </option>
-                                    <option value="0" {{ $room_status->is_available == 0 ? 'selected' : '' }}>ไม่ว่าง
-                                    </option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
 
 
         <!-- Modal Room -->
 
 
 
-        <!-- ส่วนของการดึงข้อมูล -->
-
+        <!-- ส่วนของการดึงข้อมูล User -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function() {
@@ -549,22 +542,8 @@
             });
         </script>
 
-        <script>
-            $(document).ready(function() {
-                $('#editRoomstatusModal').on('show.bs.modal', function(event) {
-                    var button = $(event.relatedTarget); // Button that triggered the modal
-                    var roomId = button.data('room-id'); // Extract info from data-* attributes
-                    var roomName = button.data('room-name');
-                    var roomIsAvailable = button.data('room-is-available');
-                    // If necessary, you can make an AJAX call here to get the room's data
-                    // For demonstration, we'll just use the data already available
-                    var modal = $(this);
-                    modal.find('#name').val(roomName);
-                    modal.find('#is_available').val(roomIsAvailable);
-                    // Repeat for other fields as necessary
-                });
-            });
-        </script>
+        <!-- ส่วนของการดึงข้อมูล Room_status -->
+        <!-- Modal -->
 
 
     </body>

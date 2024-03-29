@@ -15,6 +15,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
 
     <style>
@@ -103,6 +104,21 @@
         .profile-toggle {
             cursor: pointer;
         }
+
+        /* Hide the sub-menu by default */
+        .data-submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            /* Adjust the duration and easing function as needed */
+            list-style-type: none;
+            padding-left: 20px;
+        }
+
+        /* Style for the settings toggle */
+        .data-toggle {
+            cursor: pointer;
+        }
     </style>
 
     <body>
@@ -125,7 +141,7 @@
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        <li><a href="/profile/Page 3">- Page 3</a></li>
+                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -134,13 +150,22 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        <li><a href="/Setting/General">- General</a></li>
+                        {{-- <li><a href="/Setting/General">- General</a></li>
                         <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li>
+                        <li><a href="/Setting/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
-                <li><a href="/data">Data</a></li>
+                <li>
+                    <a href="#" class="data-toggle">Data</a>
+                    <ul class="data-submenu">
+                        <li><a href="/data">- Data</a></li>
+                        <li><a href="/data_view">- View</a></li>
+                        {{-- <li><a href="/data/Account">- Account</a></li>
+                        <li><a href="/data/Security">- Security</a></li> --}}
+                    </ul>
+                </li>
+
                 <button id="logoutBtn">Logout</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -190,34 +215,161 @@
                     }
                 });
             });
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                var settingsToggle = document.querySelector('.data-toggle');
+                var settingsSubmenu = document.querySelector('.data-submenu');
+
+                settingsToggle.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent the default action
+                    if (settingsSubmenu.style.maxHeight) {
+                        // If the sub-menu is currently shown, hide it
+                        settingsSubmenu.style.maxHeight = null;
+                    } else {
+                        // If the sub-menu is hidden, show it with a smooth animation
+                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
+                    }
+                });
+            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-   
-
+  
 
         <div class="container mt-5">
-            <h1>Data Page Setting</h1>
-            <h4>Change Password</h4>
-            <form action="{{ route('changePassword') }}" method="POST">
+            <h1 class="mb-4">Data Page Setting</h1>
+
+            <!-- Change Personal Information -->
+            <h4 class="mb-3">Change Personal Information</h4>
+            <form method="POST" class="mb-4">
                 @csrf
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="mb-3">
+                    <label for="profilePicture" class="form-label">Profile Picture</label>
+                    <input type="file" class="form-control" id="profilePicture" name="profilePicture">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+
+            <!-- Change Password -->
+            <h4 class="mb-3">Change Password</h4>
+            <form method="POST" class="mb-4">
+                @csrf
+                <div class="mb-3">
+                    <label for="currentPassword" class="form-label">Current Password</label>
                     <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
                 </div>
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
+                <div class="mb-3">
+                    <label for="newPassword" class="form-label">New Password</label>
                     <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                 </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Change Password</button>
             </form>
+
+            <!-- Notification Settings -->
+            <h4 class="mb-3">Notification Settings</h4>
+            <form method="POST" class="mb-4">
+                @csrf
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="email" id="emailNotification"
+                        name="emailNotification">
+                    <label class="form-check-label" for="emailNotification">
+                        Email Notifications
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="sms" id="smsNotification"
+                        name="smsNotification">
+                    <label class="form-check-label" for="smsNotification">
+                        SMS Notifications
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="app" id="appNotification"
+                        name="appNotification">
+                    <label class="form-check-label" for="appNotification">
+                        App Notifications
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Notification Settings</button>
+            </form>
+
+            <!-- Support Settings -->
+            <h4 class="mb-3">Support Settings</h4>
+            <form method="POST" class="mb-4">
+                @csrf
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="email" id="emailSupport"
+                        name="emailSupport">
+                    <label class="form-check-label" for="emailSupport">
+                        Email Support
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="phone" id="phoneSupport"
+                        name="phoneSupport">
+                    <label class="form-check-label" for="phoneSupport">
+                        Phone Support
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="app" id="appSupport" name="appSupport">
+                    <label class="form-check-label" for="appSupport">
+                        App Support
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Support Settings</button>
+            </form>
+
+            <!-- Communication Settings -->
+            <h4 class="mb-3">Communication Settings</h4>
+            <form method="POST" class="mb-4">
+                @csrf
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="email" id="emailCommunication"
+                        name="emailCommunication">
+                    <label class="form-check-label" for="emailCommunication">
+                        Email Communication
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="phone" id="phoneCommunication"
+                        name="phoneCommunication">
+                    <label class="form-check-label" for="phoneCommunication">
+                        Phone Communication
+                    </label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input class="form-check-input" type="checkbox" value="app" id="appCommunication"
+                        name="appCommunication">
+                    <label class="form-check-label" for="appCommunication">
+                        App Communication
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Communication Settings</button>
+            </form>
         </div>
 
+
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
 
     </body>
