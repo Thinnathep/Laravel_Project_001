@@ -105,26 +105,21 @@
     </style>
 
     <body>
-        <nav id="sidebar">
+        {{-- <nav id="sidebar">
             <h2>Dashboard</h2>
             <div class="profile-container">
                 <div class="profile-circle">
-                    <!-- สร้างวงกลมสำหรับภาพโปรไฟล์ -->
-                    {{-- <img src="{{ asset('path/to/profile/image') }}" alt="Profile Image"> --}}
                 </div>
                 <h2>{{ Auth::user()->name }}</h2>
-                <!-- แสดงชื่อผู้ใช้จากการ login -->
             </div>
             <ul>
                 <li><a href="{{ route('dashboard') }}">Home</a></li>
 
                 <li>
-                    {{-- <a href="/profile">Profile</a> --}}
                     <a href="/profile" class="profile-toggle">Profile</a>
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -133,30 +128,24 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        {{-- <li><a href="/Setting/General">- General</a></li>
-                        <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li> --}}
+
                     </ul>
                 </li>
-
 
                 <li>
                     <a href="#" class="data-toggle">Data</a>
                     <ul class="data-submenu">
                         <li><a href="/data">- Data</a></li>
                         <li><a href="/data_view">- View</a></li>
-                        {{-- <li><a href="/data/Account">- Account</a></li>
-                        <li><a href="/data/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
-                {{-- <li><a href="/data">Data</a></li> --}}
                 <button id="logoutBtn">Logout</button>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </ul>
-        </nav>
+        </nav> --}}
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -168,64 +157,13 @@
                     });
                 }
             });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.settings-toggle');
-                var settingsSubmenu = document.querySelector('.settings-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.profile-toggle');
-                var settingsSubmenu = document.querySelector('.profile-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.data-toggle');
-                var settingsSubmenu = document.querySelector('.data-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Bootstrap JavaScript -->
-
-
-        <script src="script.js"></script> <!-- Link to your JavaScript file -->
-
 
         <div class="container mt-5">
 
-            <h1>Data Page</h1>
+            <h1>Data Page Hey, <h5 class="card-title">{{ Auth::user()->name }}</h5>
+            </h1>
             <p>This is the data page.</p>
 
             <h2>Users</h2>
@@ -371,8 +309,7 @@
                         <td></td>
                         <td><input type="text" name="name" class="form-control form-control-sm" placeholder="Name">
                         </td>
-                        <td><input type="text" name="type" class="form-control form-control-sm"
-                                placeholder="Type">
+                        <td><input type="text" name="type" class="form-control form-control-sm" placeholder="Type">
                         </td>
                         <td>
                             <button type="submit" class="btn btn-success btn-sm">Insert</button>
@@ -453,8 +390,6 @@
         </div>
 
 
-
-
         <!-- Bootstrap JS and Popper.js -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -510,17 +445,6 @@
             </div>
         </div>
 
-        <!-- Modal Room Status -->
-
-
-
-
-
-
-        <!-- Modal Room -->
-
-
-
         <!-- ส่วนของการดึงข้อมูล User -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
@@ -541,12 +465,6 @@
                 });
             });
         </script>
-
-        <!-- ส่วนของการดึงข้อมูล Room_status -->
-        <!-- Modal -->
-
-
     </body>
-
     </html>
 @endsection

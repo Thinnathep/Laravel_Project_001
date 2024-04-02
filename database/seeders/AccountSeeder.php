@@ -29,9 +29,9 @@ class AccountSeeder extends Seeder
         $RoomStatus = DB::table('room_status')->get()->toArray();
 
         // เลือกเพียง 20 รายการแรกจากแต่ละตาราง
-        $users = array_slice($users, 0, 10);
-        $rooms = array_slice($rooms, 0, 10);
-        $RoomStatus = array_slice($RoomStatus, 0, 10);
+        $users = array_slice($users, 0); // ไม่จำกัดจำนวนรายการ
+        $rooms = array_slice($rooms, 0); // ไม่จำกัดจำนวนรายการ
+        $RoomStatus = array_slice($RoomStatus, 0); // ไม่จำกัดจำนวนรายการ
 
         // เพิ่มข้อมูลลงในตาราง accounts
         for ($i = 0; $i < 10; $i++) {

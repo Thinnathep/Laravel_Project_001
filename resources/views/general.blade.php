@@ -145,26 +145,21 @@
     </style>
 
     <body>
-        <nav id="sidebar">
+         {{-- <nav id="sidebar">
             <h2>Dashboard</h2>
             <div class="profile-container">
                 <div class="profile-circle">
-                    <!-- สร้างวงกลมสำหรับภาพโปรไฟล์ -->
-                    {{-- <img src="{{ asset('path/to/profile/image') }}" alt="Profile Image"> --}}
                 </div>
                 <h2>{{ Auth::user()->name }}</h2>
-                <!-- แสดงชื่อผู้ใช้จากการ login -->
             </div>
             <ul>
                 <li><a href="{{ route('dashboard') }}">Home</a></li>
 
                 <li>
-                    {{-- <a href="/profile">Profile</a> --}}
                     <a href="/profile" class="profile-toggle">Profile</a>
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -173,9 +168,7 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        {{-- <li><a href="/Setting/General">- General</a></li>
-                        <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li> --}}
+
                     </ul>
                 </li>
 
@@ -184,8 +177,6 @@
                     <ul class="data-submenu">
                         <li><a href="/data">- Data</a></li>
                         <li><a href="/data_view">- View</a></li>
-                        {{-- <li><a href="/data/Account">- Account</a></li>
-                        <li><a href="/data/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
@@ -194,7 +185,7 @@
                     @csrf
                 </form>
             </ul>
-        </nav>
+        </nav> --}}
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -206,67 +197,6 @@
                     });
                 }
             });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.settings-toggle');
-                var settingsSubmenu = document.querySelector('.settings-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.profile-toggle');
-                var settingsSubmenu = document.querySelector('.profile-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.data-toggle');
-                var settingsSubmenu = document.querySelector('.data-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-            // document.getElementById('roomStatusButton').addEventListener('click', function() {
-            //     var button = this;
-            //     if (button.textContent === 'ห้องว่าง') {
-            //         button.textContent = 'ห้องไม่ว่าง';
-            //         button.style.backgroundColor = 'red';
-            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
-            //     } else {
-            //         button.textContent = 'ห้องว่าง';
-            //         button.style.backgroundColor = 'green';
-            //         // เพิ่มการอัปเดตสถานะในฐานข้อมูลที่นี่
-            //     }
-            // });
         </script>
 
 
@@ -274,7 +204,7 @@
 
         <div class="container mt-5">
             <div class="container">
-                <h1 class="text-center my-4">Welcome to the General Page</h1>
+                <h1 class="text-center my-4">Welcome    <h5 class="card-title">{{ Auth::user()->name }}</h5> !</h1>
                 <h2 class="text-center my-4">About Us</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
                     ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent

@@ -10,7 +10,9 @@ use App\Models\RoomType;
 use App\Models\RoomStatus;
 use App\Models\Account;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
+use App\Events\DataChanged;
+use App\Mail\DataChanged as MailDataChanged;
 
 class UserController extends Controller
 {
@@ -25,9 +27,6 @@ class UserController extends Controller
         // ส่งข้อมูลไปยัง view
         return view('data', compact('users', 'rooms', 'room_types', 'room_status'));
     }
-
-
-
 
 
     public function getUser(Request $request)
@@ -77,7 +76,6 @@ class UserController extends Controller
         return view('edit-user', compact('user'));
     }
 
-
     public function updateUser(Request $request, $id)
     {
         $user = User::find($id);
@@ -89,17 +87,21 @@ class UserController extends Controller
         return redirect('/data')->with('success', 'User updated successfully');
     }
 
-
     public function deleteUser($id)
     {
+        // ดึงข้อมูลผู้ใช้ที่กำลังทำการลบห้อง
+        $user = auth()->user();
+
+        // ตรวจสอบว่าผู้ใช้มีบทบาทเป็น 'superadmin'
+        if ($user->role !== 'superadmin') {
+            // ถ้าไม่ใช่ 'superadmin' ส่งกลับไปยังหน้าที่ต้องการหลังจากลบสำเร็จ
+            return redirect('/data')->with('error', 'You do not have permission to delete rooms.');
+        }
+
         $user = User::find($id);
         $user->delete();
-
-        return redirect('/data')->with('success', 'User deleted successfully');
+        return redirect('/data')->with('success', 'Room deleted successfully');
     }
-
-
-
 
     //Insert Update Delete Room
     public function insertRoom(Request $request)
@@ -140,11 +142,21 @@ class UserController extends Controller
 
     public function deleteRoom($id)
     {
+        // ดึงข้อมูลผู้ใช้ที่กำลังทำการลบห้อง
+        $room = auth()->user();
+
+        // ตรวจสอบว่าผู้ใช้มีบทบาทเป็น 'superadmin'
+        if ($room->role !== 'superadmin') {
+            // ถ้าไม่ใช่ 'superadmin' ส่งกลับไปยังหน้าที่ต้องการหลังจากลบสำเร็จ
+            return redirect('/data')->with('error', 'You do not have permission to delete rooms.');
+        }
+
         $room = Rooms::find($id);
         $room->delete();
 
         return redirect('/data')->with('success', 'Room deleted successfully');
     }
+
 
 
     //Insert Update Delete Room_status
@@ -181,10 +193,19 @@ class UserController extends Controller
 
     public function deleteRoomStatus($id)
     {
+        // ดึงข้อมูลผู้ใช้ที่กำลังทำการลบห้อง
+        $roomStatus = auth()->user();
+
+        // ตรวจสอบว่าผู้ใช้มีบทบาทเป็น 'superadmin'
+        if ($roomStatus->role !== 'superadmin') {
+            // ถ้าไม่ใช่ 'superadmin' ส่งกลับไปยังหน้าที่ต้องการหลังจากลบสำเร็จ
+            return redirect('/data')->with('error', 'You do not have permission to delete rooms.');
+        }
+
         $roomStatus = RoomStatus::find($id);
         $roomStatus->delete();
 
-        return redirect('/data')->with('success', 'Room Status deleted successfully');
+        return redirect('/data')->with('success', 'Room deleted successfully');
     }
 
 
@@ -234,11 +255,47 @@ class UserController extends Controller
 
     public function deleteAccount($id)
     {
-        $account = Account::find($id);
+        // ดึงข้อมูลผู้ใช้ที่กำลังทำการลบห้อง
+        $account = auth()->user();
+
+        // ตรวจสอบว่าผู้ใช้มีบทบาทเป็น 'superadmin'
+        if ($account->role !== 'superadmin') {
+            // ถ้าไม่ใช่ 'superadmin' ส่งกลับไปยังหน้าที่ต้องการหลังจากลบสำเร็จ
+            return redirect('/data')->with('error', 'You do not have permission to delete rooms.');
+        }
+
+        $account = account::find($id);
         $account->delete();
 
-        return redirect('/data_view')->with('success', 'Account deleted successfully');
+        return redirect('/data')->with('success', 'Room deleted successfully');
     }
+
+
+
+
+//กำหนดสิทธิ์
+public function performAction($userId, $action) {
+    $user = DB::table('users')->where('id', $userId)->first();
+    if ($user->role == 'superadmin') {
+        // อนุญาตการทำงาน INSERT, UPDATE, DELETE
+        if ($action == 'insert' || $action == 'update' || $action == 'delete') {
+            // ทำการ INSERT, UPDATE, DELETE
+        } else {
+            // ไม่อนุญาตการทำงานอื่น ๆ
+        }
+    } elseif ($user->role == 'user') {
+        // อนุญาตการทำงาน INSERT, EDIT
+        if ($action == 'insert' || $action == 'edit') {
+            // ทำการ INSERT, EDIT
+        } else {
+            // ไม่อนุญาตการทำงานอื่น ๆ
+        }
+    } else {
+        // ไม่อนุญาตการทำงาน
+    }
+}
+
+
 
 
 }

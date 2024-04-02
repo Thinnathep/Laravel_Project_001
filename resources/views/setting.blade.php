@@ -2,7 +2,8 @@
 
 @section('content')
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 
     <head>
         <meta charset="UTF-8">
@@ -122,26 +123,21 @@
     </style>
 
     <body>
-        <nav id="sidebar">
+           {{-- <nav id="sidebar">
             <h2>Dashboard</h2>
             <div class="profile-container">
                 <div class="profile-circle">
-                    <!-- สร้างวงกลมสำหรับภาพโปรไฟล์ -->
-                    {{-- <img src="{{ asset('path/to/profile/image') }}" alt="Profile Image"> --}}
                 </div>
                 <h2>{{ Auth::user()->name }}</h2>
-                <!-- แสดงชื่อผู้ใช้จากการ login -->
             </div>
             <ul>
                 <li><a href="{{ route('dashboard') }}">Home</a></li>
 
                 <li>
-                    {{-- <a href="/profile">Profile</a> --}}
                     <a href="/profile" class="profile-toggle">Profile</a>
                     <ul class="profile-submenu">
                         <li><a href="/profile">- Profile</a></li>
                         <li><a href="/general">- General</a></li>
-                        {{-- <li><a href="/profile/Page 3">- Page 3</a></li> --}}
                     </ul>
                 </li>
 
@@ -150,9 +146,7 @@
                     <a href="#" class="settings-toggle">Settings</a>
                     <ul class="settings-submenu">
                         <li><a href="/Setting">- Setting</a></li>
-                        {{-- <li><a href="/Setting/General">- General</a></li>
-                        <li><a href="/Setting/Account">- Account</a></li>
-                        <li><a href="/Setting/Security">- Security</a></li> --}}
+
                     </ul>
                 </li>
 
@@ -161,8 +155,6 @@
                     <ul class="data-submenu">
                         <li><a href="/data">- Data</a></li>
                         <li><a href="/data_view">- View</a></li>
-                        {{-- <li><a href="/data/Account">- Account</a></li>
-                        <li><a href="/data/Security">- Security</a></li> --}}
                     </ul>
                 </li>
 
@@ -171,7 +163,7 @@
                     @csrf
                 </form>
             </ul>
-        </nav>
+        </nav> --}}
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -183,61 +175,13 @@
                     });
                 }
             });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.settings-toggle');
-                var settingsSubmenu = document.querySelector('.settings-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.profile-toggle');
-                var settingsSubmenu = document.querySelector('.profile-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
-
-
-            document.addEventListener('DOMContentLoaded', function() {
-                var settingsToggle = document.querySelector('.data-toggle');
-                var settingsSubmenu = document.querySelector('.data-submenu');
-
-                settingsToggle.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the default action
-                    if (settingsSubmenu.style.maxHeight) {
-                        // If the sub-menu is currently shown, hide it
-                        settingsSubmenu.style.maxHeight = null;
-                    } else {
-                        // If the sub-menu is hidden, show it with a smooth animation
-                        settingsSubmenu.style.maxHeight = settingsSubmenu.scrollHeight + "px";
-                    }
-                });
-            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <!-- Bootstrap JavaScript -->
-  
+
 
         <div class="container mt-5">
+           <h1>Hey <h5 class="card-title">{{ Auth::user()->name }}</h5> !</h1>
             <h1 class="mb-4">Data Page Setting</h1>
 
             <!-- Change Personal Information -->
@@ -269,7 +213,7 @@
                 @csrf
                 <div class="mb-3">
                     <label for="currentPassword" class="form-label">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" required autocomplete="current-password">
                 </div>
                 <div class="mb-3">
                     <label for="newPassword" class="form-label">New Password</label>

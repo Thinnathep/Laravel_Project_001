@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,15 +18,34 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AdminControlle;
+
 
 Auth::routes();
 //dashboard
 
+//Admin User
+// routes/web.php
 
+
+Route::get('/admin', [AdminControlle::class, 'index'])->name('admin.index');
+// routes/web.php
+
+Route::group(['middleware' => ['auth', 'superadmin']], function () {
+    Route::get('/superadmin', function () {
+        return view('superadmin');
+    });
+});
+// routes/web.php
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+    // หน้าเว็บที่เฉพาะผู้ใช้ที่เข้าสู่ระบบเท่านั้น
+})->middleware('auth');
 
+
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 
 // กำหนด route ที่ต้องการเองสำหรับการเข้าสู่ระบบ

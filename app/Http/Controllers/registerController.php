@@ -18,7 +18,7 @@ class registerController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:2', // กำหนดจำนวนรหัสกี่ตัว
         ]);
 
         $user = new User;
@@ -29,5 +29,6 @@ class registerController extends Controller
 
         return redirect()->route('login')->with('success', 'Registration successful. Please login.');
     }
+
 }
 
